@@ -4,7 +4,7 @@
 
 #define MAX 20
 using namespace std;
-//cd C:\Users\panch\OneDrive\Documentos\GitHub\Polynomial_Root_Finder
+
 //g++ main.cpp -o main
 //main.exe "6x**5 + 4x**3 + 2x**1"
 //main.exe "-6x**5 + 4x**3 + 2x**1"
