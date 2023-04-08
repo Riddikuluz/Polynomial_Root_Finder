@@ -6,7 +6,6 @@
 #define MAX 64
 using namespace std;
 
-
 //g++ main.cpp -o main
 //main.exe "3x**3 + x"
 //main.exe "-6x**5 + 4x**3 + 2x**1 + 7"
