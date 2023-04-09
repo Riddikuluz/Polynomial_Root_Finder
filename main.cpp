@@ -15,7 +15,7 @@ using namespace std;
 //main.exe "-9x**9 + 8x**8 - 7x**7 + 6x**6 + 5x**5 + 4x**4 + 3x**3 + 2x**2 + x**1 - 2"
 //main.exe "x**3 - x**2 - 4x**1 + 4"-> x=-1,x=2,x=-2
 //main.exe "2x**3 - 3x**2 - 11x**1 + 6" -> x=-2,x=1/2,x=3
-//main.exe "-2x**4 + 10x**2 - 9" !!!!!!!!!!!!
+//main.exe "-2x**4 + 10x**2 - 9"
 // todo[n][0] -> coeficiente
 // todo[n][1] -> grado
 // todo[n][2] -> negativo
@@ -35,35 +35,39 @@ int main(int argc, char *argv[]) {
 
     for (int i = 0; token != NULL; i++) {// agrega cada cadena separa por un espacio
         terminos.push_back(token);
-        cout << "Token: " << token << endl;
+        //cout << "Token: " << token << endl;
         token = strtok(NULL, " ");
     }
 
     int con = 0;//N de terminos
     for (int i = 0; i < terminos.size(); i++) {//Obliviate
         token = strtok(terminos[i], "**");
+        int indice = 0;
+        for (int i = 0; i < sizeof(token); i++)
+            if (token[i] == 88 || token[i] == 120)
+                indice = 1;
+        cout << "Token: " << token << endl;
         int d = 0;
         if (token != NULL) {
             while (token != NULL) {
                 todo[con][d] = abs(atoi(token));
-                if (*token == 88 || *token == 120) {//solo x
-                    if (todo[con][0] == 0) {
+                if (indice) {//solo x
+                     if (todo[con][0] == 0) {
                         todo[con][0] = 1;
                         todo[con][1] = 1;
-                    }
-                    if(todo[con][0] != 0 && todo[con][1] == 0)
+
+                    } else if (todo[con][1] == 0)
                         todo[con][1] = 1;
+                    //indice = 0;
                 }
                 if (*token == 45) {//negativo
                     todo[con][2] = 1;
                 }
-                if (*token == 43 || *token == 45 && i < 0)// + -
-                    con--;
-                else if (*token == 45 && i == 0)
+                if (*token == 43 || *token == 45 && i > 0 )// + -
                     con--;
                 else if (todo[con][0] == 0 && todo[con][1] == 0)
                     con--;
-                token = strtok(NULL, "**");
+                token = strtok(NULL, "x**");
                 d++;
             }
             con++;
