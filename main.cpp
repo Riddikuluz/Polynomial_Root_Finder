@@ -13,17 +13,19 @@ using namespace std;
 //main.exe "3x**3 + x"
 //main.exe "-6x**5 + 4x**3 + 2x**1 + 7"
 //main.exe "-9x**9 + 8x**8 - 7x**7 + 6x**6 + 5x**5 + 4x**4 + 3x**3 + 2x**2 + x**1 - 2"
-//main.exe "x**3 - x**2 - 4x**1 + 4"
-//main.exe "2x**3 - 3x**2 - 11x**1 + 6"
+//main.exe "x**3 - x**2 - 4x**1 + 4"-> x=-1,x=2,x=-2
+//main.exe "2x**3 - 3x**2 - 11x**1 + 6" -> x=-2,x=1/2,x=3
+//main.exe "-2x**4 + 10x**2 - 9" !!!!!!!!!!!!
 // todo[n][0] -> coeficiente
 // todo[n][1] -> grado
 // todo[n][2] -> negativo
 
 int main(int argc, char *argv[]) {
-    cout << "Polinomio: " <<argv[1]<< endl;
+    cout << "Polinomio: " << argv[1] << endl;
     char *token = strtok(argv[1], " ");
-    char *terminos[MAX];
-    int todo[MAX][3], cont = 0;
+    vector<char *> terminos;
+    vector<double> coef, grado, neg;
+    double todo[MAX][3];
 
     for (int i = 0; i < MAX; i++) {//inicializa la matriz
         for (int j = 0; j < 3; j++) {
@@ -31,28 +33,37 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    while (token != NULL) {//Obliviate
-        terminos[cont] = token;
+    for (int i = 0; token != NULL; i++) {// agrega cada cadena separa por un espacio
+        terminos.push_back(token);
+        cout << "Token: " << token << endl;
         token = strtok(NULL, " ");
-        cont++;
     }
+
     int con = 0;//N de terminos
-    for (int i = 0; i < cont; i++) {//malo
+    for (int i = 0; i < terminos.size(); i++) {//Obliviate
         token = strtok(terminos[i], "**");
         int d = 0;
         if (token != NULL) {
             while (token != NULL) {
                 todo[con][d] = abs(atoi(token));
                 if (*token == 88 || *token == 120) {//solo x
-                    todo[con][0] = 1;
-                    todo[con][1] = 1;
+                    if (todo[con][0] == 0) {
+                        todo[con][0] = 1;
+                        todo[con][1] = 1;
+                    }
+                    if(todo[con][0] != 0 && todo[con][1] == 0)
+                        todo[con][1] = 1;
                 }
                 if (*token == 45) {//negativo
                     todo[con][2] = 1;
                 }
-                if (*token == 43 || *token == 45 && i != 0)
+                if (*token == 43 || *token == 45 && i < 0)// + -
                     con--;
-                token = strtok(NULL, "x**");
+                else if (*token == 45 && i == 0)
+                    con--;
+                else if (todo[con][0] == 0 && todo[con][1] == 0)
+                    con--;
+                token = strtok(NULL, "**");
                 d++;
             }
             con++;
@@ -62,7 +73,7 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < con; i++) {//Revisa si el coef deberia ser negativo
         if (todo[i][2])
             todo[i][0] = todo[i][0] * -1;
-        cout << " " << todo[i][0] << " " << "X ^" << todo[i][1] << " "<< endl;
+        cout << " " << todo[i][0] << " " << "X ^" << todo[i][1] << " " << endl;
     }
 
     int gra = 0, ind = 0; // Grado del polinomio
@@ -135,7 +146,10 @@ int main(int argc, char *argv[]) {
                 Roots.push_back(div_consta[i]);
         }
     }
-    for (int i = 0; i < Roots.size(); i++)
-        cout << "Root: " << Roots[i] << endl;
+    if (Roots.size())
+        for (int i = 0; i < Roots.size(); i++)
+            cout << "Root: " << Roots[i] << endl;
+    else
+        cout << "No tiene soluciones o raices." << endl;
     return 0;
 }
