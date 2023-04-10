@@ -22,12 +22,13 @@ using namespace std;
 // todo[n][2] -> negativo
 
 int main(int argc, char *argv[]) {
-    cout << "Polinomio: " << argv[1] << endl;
+
     char *token = strtok(argv[1], " ");
     vector<char *> terminos;
-    vector<double> div_consta, div_coef, Roots, Roots_i;
+    vector<double> div_consta, div_coef, Roots, Roots_ri, Roots_pi;
     double todo[MAX][3];
 
+    cout  << endl<< "Polinomio: " << argv[1] << endl << endl;
     init(todo);
 
     for (int i = 0; token != NULL; i++) {// agrega cada cadena separa por un espacio
@@ -73,7 +74,7 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < con; i++) {//Revisa si el coef deberia ser negativo
         if (todo[i][2])
             todo[i][0] = todo[i][0] * -1;
-        cout << " " << todo[i][0] << " " << "X ^" << todo[i][1] << " " << endl;
+        //cout << " " << todo[i][0] << " " << "X ^" << todo[i][1] << " " << endl;
     }
 
     int gra = 0, ind = 0;
@@ -87,17 +88,24 @@ int main(int argc, char *argv[]) {
             todo[i][1] = todo[i][1] - 1;
             if (todo[i][1] == 0)
                 consta = todo[i][0];
-            cout << "Factorizado->" << todo[i][0] << " " << "X ^" << todo[i][1] << " " << endl;
+
+            //cout << "Termino factorizado -> "<< todo[i][0] << " " << "X ^" << todo[i][1] << " " <<endl<<endl;
         }
-        //cout << "Constante: " << consta << endl;
+        //cout <<endl;
+        gra_coef(todo, &gra, &ind, con);
+        consta = find_cons(todo, con);
     }
+    //Llamado a etodos
     if (gra == 2)
-        Qua_Equa(todo, con, &Roots, &Roots_i);
+        Qua_Equa(todo, con, &Roots, &Roots_ri, &Roots_pi);
     else if (consta != 0 && ind > 1) //Gauss
         Gauss(todo, gra, ind, con, consta, &Roots);
     else if (consta != 0) //ruffini
         ruffini(todo, con, consta, &Roots);
 
-    mostrar_raices(Roots, Roots_i);
+    mostrar_raices(Roots, Roots_ri, Roots_pi);
+
+    los_mejores_guerreros_de_dios();
+
     return 0;
 }

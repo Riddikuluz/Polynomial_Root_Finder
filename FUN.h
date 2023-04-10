@@ -23,16 +23,16 @@ void Gauss(double todo[][3], int gra, int ind, int con, int consta, vector<doubl
 
 void ruffini(double todo[][3], int con, int consta, vector<double> *Roots);
 
-void Qua_Equa(double todo[][3], int con, vector<double> *Roots, vector<double> *Roots_i);
+void Qua_Equa(double todo[][3], int con, vector<double> *Roots, vector<double> *Roots_ri, vector<double> *Roots_pi);
 
-void mostrar_raices(vector<double> Roots, vector<double> Roots_i);
+void mostrar_raices(vector<double> Roots, vector<double> Roots_ri, vector<double> Roots_pi);
 
+void los_mejores_guerreros_de_dios();
 
-void init(double  todo[][3]) {//inicializa la matriz
-    for(int f=0; f<MAX; f++)
-        for(int c=0; c<3; c++)
-        {
-                *(*(todo + c) + f)= 0;
+void init(double todo[][3]) {//inicializa la matriz
+    for (int f = 0; f < MAX; f++)
+        for (int c = 0; c < 3; c++) {
+            *(*(todo + c) + f) = 0;
         }
 }
 
@@ -42,24 +42,25 @@ int find_cons(double todo[][3], int con) {//busca el termino independiente
         if (todo[i][1] == 0)
             consta = todo[i][0];
     }
-    cout << "Constante: " << consta << endl;
+    //cout << "Constante: " << consta << endl;
     return consta;
 }
 
 void gra_coef(double todo[][3], int *gra, int *ind, int con) {// Grado del polinomio
+    *gra = 0;
     for (int i = 0; i < con; i++) {
         if (*gra < todo[i][1]) {
             *gra = todo[i][1];
             *ind = todo[i][0];
         }
     }
-    cout << "Grado: " << *gra << endl;
-    cout << "coef: " << *ind << endl;
+    //cout << "Grado: " << *gra << endl;
+    //cout << "coef: " << *ind << endl;
 }
 
 void Gauss(double todo[][3], int gra, int ind, int con, int consta, vector<double> *Roots) {// Grado del polinomio
     vector<double> div_consta, div_coef, P_roots;
-    cout << "Entro GAUSS " << endl;
+    //cout << "Entro GAUSS " << endl;
     for (int i = 1; i <= abs(consta); i++) {
         if (abs(consta) % i == 0) {
             div_consta.push_back(i);
@@ -97,7 +98,7 @@ void Gauss(double todo[][3], int gra, int ind, int con, int consta, vector<doubl
 
 void ruffini(double todo[][3], int con, int consta, vector<double> *Roots) {// Grado del polinomio
     vector<double> div_consta, div_coef, P_roots;
-    cout << "Entro Ruffini " << endl;
+    //cout << "Entro Ruffini " << endl;
     for (int i = 1; i <= abs(consta); i++) {
         if (abs(consta) % i == 0) {//posibles raices
             div_consta.push_back(i);
@@ -114,7 +115,8 @@ void ruffini(double todo[][3], int con, int consta, vector<double> *Roots) {// G
     }
 }
 
-void Qua_Equa(double todo[][3], int con, vector<double> *Roots, vector<double> *Roots_i) {// Grado del polinomio
+void Qua_Equa(double todo[][3], int con, vector<double> *Roots, vector<double> *Roots_ri,
+              vector<double> *Roots_pi) {// Grado del polinomio
     double a, b, c, discriminant, realPart, imaginaryPart;
     for (int i = 0; i < con; i++) {
         if (todo[i][1] == 0)
@@ -133,23 +135,37 @@ void Qua_Equa(double todo[][3], int con, vector<double> *Roots, vector<double> *
         Roots->push_back(-b / (2 * a));
 
     else {
-        Roots->push_back(-b / (2 * a));
-        Roots_i->push_back(sqrt(-discriminant) / (2 * a));
+        Roots_ri->push_back(-b / (2 * a));
+        Roots_pi->push_back(sqrt(-discriminant) / (2 * a));
     }
 }
 
-void mostrar_raices(vector<double> Roots, vector<double> Roots_i) {// Grado del polinomio
-    if (Roots.size() && Roots_i.size()) {
-        for (int i = 0; i < Roots.size(); i++) {
-            cout << "Las raices son complejas." << endl;
-            cout << "raiz: "<< Roots[i] << " + "<< Roots_i[i]<<" i "<< endl;
-            cout << "raiz: "<< Roots[i] << " - "<< Roots_i[i] <<" i "<< endl;
+void mostrar_raices(vector<double> Roots, vector<double> Roots_ri, vector<double> Roots_pi) {// Grado del polinomio
+    if (Roots_ri.size() && Roots_pi.size()) {
+        for (int i = 0; i < Roots_ri.size(); i++) {
+            cout << "Posee  raices  complejas." << endl << endl;
+            cout << "raiz: " << Roots_ri[i] << " + " << Roots_pi[i] << " i " << endl << endl;
+            cout << "raiz: " << Roots_ri[i] << " - " << Roots_pi[i] << " i " << endl << endl;
         }
-    } else if (Roots.size())
+    }
+    if (Roots.size())
         for (int i = 0; i < Roots.size(); i++)
-            cout << "raiz: " << Roots[i] << endl;
-    else
-        cout << "No tiene soluciones o raices." << endl;
+            cout << "raiz: " << Roots[i] << endl << endl;
+    if (!Roots_ri.size() && !Roots_pi.size() && !Roots.size())
+        cout << "No tiene soluciones o raices." << endl << endl;
+
+}
+
+void los_mejores_guerreros_de_dios() {
+    cout << endl << endl;
+    cout << "Integrantes " << endl << endl;
+    printf("%c Romina Araya", 206);
+    cout << endl << endl;
+    printf("%c Brian Ponce", 206);
+    cout << endl << endl;
+    printf("%c Francisco Robledo", 206);
+    cout << endl << endl;
+    cout << "Traido a usted, gracias al fin de semana santo. " << endl << endl;
 }
 
 #endif //POLYNOMIAL_ROOT_FINDER_FUN_H
