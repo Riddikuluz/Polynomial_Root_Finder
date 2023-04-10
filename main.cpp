@@ -21,21 +21,20 @@ using namespace std;
 // todo[n][1] -> grado
 // todo[n][2] -> negativo
 
-
 int main(int argc, char *argv[]) {
     cout << "Polinomio: " << argv[1] << endl;
     char *token = strtok(argv[1], " ");
     vector<char *> terminos;
-    vector<double> div_consta, div_coef, Roots, P_roots;
+    vector<double> div_consta, div_coef, Roots, Roots_i;
     double todo[MAX][3];
-    
+
+    init(todo);
 
     for (int i = 0; token != NULL; i++) {// agrega cada cadena separa por un espacio
         terminos.push_back(token);
-        cout << "Token: " << token << endl;
+       // cout << "Token: " << token << endl;
         token = strtok(NULL, " ");
     }
-
 
     int con = 0;//N de terminos
     for (int i = 0; i < terminos.size(); i++) {//Obliviate
@@ -44,7 +43,7 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < sizeof(token); i++)
             if (token[i] == 88 || token[i] == 120)
                 indice = 1;
-        // cout << "Token: " << token << endl;
+
         int d = 0;
         if (token != NULL) {
             while (token != NULL) {
@@ -92,12 +91,13 @@ int main(int argc, char *argv[]) {
         }
         //cout << "Constante: " << consta << endl;
     }
-
-    if (consta != 0 && ind > 1) {//Gauss
+    if (gra == 2)
+        Qua_Equa(todo, con, &Roots, &Roots_i);
+    else if (consta != 0 && ind > 1) //Gauss
         Gauss(todo, gra, ind, con, consta, &Roots);
-    } else if (consta != 0) {//ruffini
-        ruffini ( todo,  con,  consta, &Roots);
-    }
-    mostrar_raices ( Roots);
+    else if (consta != 0) //ruffini
+        ruffini(todo, con, consta, &Roots);
+
+    mostrar_raices(Roots, Roots_i);
     return 0;
 }
