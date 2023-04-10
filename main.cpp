@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     cout << "Polinomio: " << argv[1] << endl;
     char *token = strtok(argv[1], " ");
     vector<char *> terminos;
-    vector<double> coef, grado, neg;
+    vector<double> div_consta, div_coef, Roots, P_roots;
     double todo[MAX][3];
 
     for (int i = 0; i < MAX; i++) {//inicializa la matriz
@@ -46,24 +46,23 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < sizeof(token); i++)
             if (token[i] == 88 || token[i] == 120)
                 indice = 1;
-        cout << "Token: " << token << endl;
+       // cout << "Token: " << token << endl;
         int d = 0;
         if (token != NULL) {
             while (token != NULL) {
                 todo[con][d] = abs(atoi(token));
                 if (indice) {//solo x
-                     if (todo[con][0] == 0) {
+                    if (todo[con][0] == 0) {
                         todo[con][0] = 1;
                         todo[con][1] = 1;
 
                     } else if (todo[con][1] == 0)
                         todo[con][1] = 1;
-                    //indice = 0;
                 }
                 if (*token == 45) {//negativo
                     todo[con][2] = 1;
                 }
-                if (*token == 43 || *token == 45 && i > 0 )// + -
+                if (*token == 43 || *token == 45 && i > 0)// + -
                     con--;
                 else if (todo[con][0] == 0 && todo[con][1] == 0)
                     con--;
@@ -97,9 +96,19 @@ int main(int argc, char *argv[]) {
     }
     //cout << "Constante: " << consta << endl;
 
-    vector<float> div_consta, div_coef, Roots, P_roots;
+    if (consta == 0) {//factorizar
+        Roots.push_back(0);
+        for (int i = 0; i < con; i++) {
+            todo[i][1] = todo[i][1] - 1;
+            if (todo[i][1] == 0)
+                consta = todo[i][0];
+            cout << "Factorizado->" << todo[i][0] << " " << "X ^" << todo[i][1] << " " << endl;
+        }
+        //cout << "Constante: " << consta << endl;
+    }
+
     if (consta != 0 && ind > 1) {//Gauss
-        //cout << "Entro GAUSS " << endl;
+        cout << "Entro GAUSS " << endl;
         for (int i = 1; i <= abs(consta); i++) {
             if (abs(consta) % i == 0) {
                 div_consta.push_back(i);
@@ -114,7 +123,7 @@ int main(int argc, char *argv[]) {
         }
         for (int i = 0; i < div_consta.size(); i++) {
             for (int j = 0; j < div_coef.size(); j++) {
-                float key = div_consta[i] / div_coef[j];
+                double key = div_consta[i] / div_coef[j];
                 if (find(P_roots.begin(), P_roots.end(), key) == P_roots.end())
                     P_roots.push_back(div_consta[i] / div_coef[j]);//posibles raices
             }
@@ -142,7 +151,7 @@ int main(int argc, char *argv[]) {
             }
         }
         for (int i = 0; i < div_consta.size(); i++) {
-            float aux = 0;
+            double aux = 0;
             for (int j = 0; j < con; j++) {
                 aux = aux + todo[j][0] * pow(div_consta[i], todo[j][1]);
             }
