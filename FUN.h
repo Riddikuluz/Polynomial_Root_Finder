@@ -15,7 +15,7 @@ using namespace std;
 
 void init(double todo[][3]);
 
-int find_cons(double todo[][3], int con);
+double find_cons(double todo[][3], int con);
 
 void gra_coef(double todo[][3], int *gra, int *ind, int con);
 
@@ -36,8 +36,8 @@ void init(double todo[][3]) {//inicializa la matriz
         }
 }
 
-int find_cons(double todo[][3], int con) {//busca el termino independiente
-    int consta = 0;// Constante
+double find_cons(double todo[][3], int con) {//busca el termino independiente
+    double consta = 0;// Constante
     for (int i = 0; i < con; i++) {
         if (todo[i][1] == 0)
             consta = todo[i][0];
@@ -58,7 +58,7 @@ void gra_coef(double todo[][3], int *gra, int *ind, int con) {// Grado del polin
     //cout << "coef: " << *ind << endl;
 }
 
-void Gauss(double todo[][3], int gra, int ind, int con, int consta, vector<double> *Roots) {// Grado del polinomio
+void ruffini(double todo[][3], int gra, int ind, int con, int consta, vector<double> *Roots) {//metodo ruffini
     vector<double> div_consta, div_coef, P_roots;
     //cout << "Entro GAUSS " << endl;
     for (int i = 1; i <= abs(consta); i++) {
@@ -81,7 +81,7 @@ void Gauss(double todo[][3], int gra, int ind, int con, int consta, vector<doubl
         }
     }
     for (int i = 0; i < P_roots.size(); i++) {
-        float aux = 0;
+        double aux = 0;
         for (int j = 0; j < con; j++) {
             if (j == 0) {
                 aux = todo[j][0] * P_roots[i];
@@ -96,7 +96,7 @@ void Gauss(double todo[][3], int gra, int ind, int con, int consta, vector<doubl
     }
 }
 
-void ruffini(double todo[][3], int con, int consta, vector<double> *Roots) {// Grado del polinomio
+void ruffini(double todo[][3], int con, int consta, vector<double> *Roots) {//metodo ruffini
     vector<double> div_consta, div_coef, P_roots;
     //cout << "Entro Ruffini " << endl;
     for (int i = 1; i <= abs(consta); i++) {
@@ -115,8 +115,7 @@ void ruffini(double todo[][3], int con, int consta, vector<double> *Roots) {// G
     }
 }
 
-void Qua_Equa(double todo[][3], int con, vector<double> *Roots, vector<double> *Roots_ri,
-              vector<double> *Roots_pi) {// Grado del polinomio
+void Qua_Equa(double todo[][3], int con, vector<double> *Roots, vector<double> *Roots_ri,vector<double> *Roots_pi) {// solucion cuadratica
     double a, b, c, discriminant, realPart, imaginaryPart;
     for (int i = 0; i < con; i++) {
         if (todo[i][1] == 0)
@@ -140,17 +139,21 @@ void Qua_Equa(double todo[][3], int con, vector<double> *Roots, vector<double> *
     }
 }
 
-void mostrar_raices(vector<double> Roots, vector<double> Roots_ri, vector<double> Roots_pi) {// Grado del polinomio
+void mostrar_raices(vector<double> Roots, vector<double> Roots_ri, vector<double> Roots_pi) {//Muestra las raices
+    if (Roots_ri.size() || Roots_pi.size() || Roots.size())
+        cout << "Posee " << Roots_ri.size() + Roots_pi.size() + Roots.size() << " raiz/raices." << endl << endl;
     if (Roots_ri.size() && Roots_pi.size()) {
         for (int i = 0; i < Roots_ri.size(); i++) {
-            cout << "Posee  raices  complejas." << endl << endl;
+            cout << endl << "Posee  raices  complejas." << endl << endl;
             cout << "raiz: " << Roots_ri[i] << " + " << Roots_pi[i] << " i " << endl << endl;
             cout << "raiz: " << Roots_ri[i] << " - " << Roots_pi[i] << " i " << endl << endl;
         }
     }
-    if (Roots.size())
+    if (Roots.size()){
+        cout << endl << "Posee  raices  Reales." << endl << endl;
         for (int i = 0; i < Roots.size(); i++)
             cout << "raiz: " << Roots[i] << endl << endl;
+    }
     if (!Roots_ri.size() && !Roots_pi.size() && !Roots.size())
         cout << "No tiene soluciones o raices." << endl << endl;
 
@@ -158,7 +161,7 @@ void mostrar_raices(vector<double> Roots, vector<double> Roots_ri, vector<double
 
 void los_mejores_guerreros_de_dios() {
     cout << endl << endl;
-    cout << "Integrantes " << endl << endl;
+    cout << "<<<Integrantes>>>" << endl << endl;
     printf("%c Romina Araya", 206);
     cout << endl << endl;
     printf("%c Brian Ponce", 206);
