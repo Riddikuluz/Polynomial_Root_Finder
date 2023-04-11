@@ -1,4 +1,5 @@
 #include "FUN.h"
+
 void init(double todo[][3]);
 
 double find_cons(double todo[][3], int con);

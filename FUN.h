@@ -9,11 +9,8 @@
 #include <vector>
 #include <math.h>
 #include <algorithm>
-
-#define MAX 64
+#define MAX 128
 using namespace std;
-
-
 
 void init(double todo[][3]) {//inicializa la matriz
     for (int f = 0; f < MAX; f++)

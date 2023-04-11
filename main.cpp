@@ -6,29 +6,26 @@
 #include <math.h>
 #include <algorithm>
 #include "FUN.h"
-
-#define MAX 64
+#define MAX 128
 using namespace std;
 
-//g++ main.cpp -o main
-//main.exe "3x**3 + x"
-//main.exe "-6x**5 + 4x**3 + 2x**1 + 7"
-//main.exe "-9x**9 + 8x**8 - 7x**7 + 6x**6 + 5x**5 + 4x**4 + 3x**3 + 2x**2 + x**1 - 2"
-//main.exe "x**3 - x**2 - 4x**1 + 4"-> x=-1,x=2,x=-2
-//main.exe "2x**5 + x**4 - 8x**3 - x**2 + 6x"
 // todo[n][0] -> coeficiente
 // todo[n][1] -> grado
 // todo[n][2] -> negativo
 
 int main(int argc, char *argv[]) {
 
+    if(argv[1]!= NULL)//Comprueba si se ingreso el polinomio
     cout  << endl<< "Polinomio: " << argv[1] << endl << endl;
+    else{
+        cout  << endl<< "Polinomio no valido, intente nuevamente."<< endl << endl;
+        return 0;
+    }
 
     char *token = strtok(argv[1], " ");
     vector<char *> terminos;
     vector<double> div_consta, div_coef, Roots, Roots_ri, Roots_pi;
     double todo[MAX][3];
-
 
     init(todo);
 
@@ -39,7 +36,7 @@ int main(int argc, char *argv[]) {
     }
 
     int con = 0;//N de terminos
-    for (int i = 0; i < terminos.size(); i++) {//Obliviate
+    for (int i = 0; i < terminos.size(); i++) {//Guarda en la matriz de forma ordenada el coef y grado
         token = strtok(terminos[i], "**");
         int indice = 0;
         for (int i = 0; i < sizeof(token); i++)
@@ -80,7 +77,6 @@ int main(int argc, char *argv[]) {
 
     int gra = 0, ind = 0;
     gra_coef(todo, &gra, &ind, con);//busca el grado y coef
-
     double consta = find_cons(todo, con);//busca el termino independiente
 
     if (consta == 0) {//factoriza polinomio
