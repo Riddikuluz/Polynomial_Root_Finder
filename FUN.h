@@ -58,7 +58,7 @@ void gra_coef(double todo[][3], int *gra, int *ind, int con) {// Grado del polin
     //cout << "coef: " << *ind << endl;
 }
 
-void ruffini(double todo[][3], int gra, int ind, int con, int consta, vector<double> *Roots) {//metodo ruffini
+void Gauss(double todo[][3], int gra, int ind, int con, int consta, vector<double> *Roots) {//metodo ruffini
     vector<double> div_consta, div_coef, P_roots;
     //cout << "Entro GAUSS " << endl;
     for (int i = 1; i <= abs(consta); i++) {
@@ -115,7 +115,8 @@ void ruffini(double todo[][3], int con, int consta, vector<double> *Roots) {//me
     }
 }
 
-void Qua_Equa(double todo[][3], int con, vector<double> *Roots, vector<double> *Roots_ri,vector<double> *Roots_pi) {// solucion cuadratica
+void Qua_Equa(double todo[][3], int con, vector<double> *Roots, vector<double> *Roots_ri,
+              vector<double> *Roots_pi) {// solucion cuadratica
     double a, b, c, discriminant, realPart, imaginaryPart;
     for (int i = 0; i < con; i++) {
         if (todo[i][1] == 0)
@@ -141,21 +142,31 @@ void Qua_Equa(double todo[][3], int con, vector<double> *Roots, vector<double> *
 
 void mostrar_raices(vector<double> Roots, vector<double> Roots_ri, vector<double> Roots_pi) {//Muestra las raices
     if (Roots_ri.size() || Roots_pi.size() || Roots.size())
-        cout << "Posee " << Roots_ri.size() + Roots_pi.size() + Roots.size() << " raiz/raices." << endl << endl;
+        if (Roots_ri.size() + Roots_pi.size() + Roots.size() == 1)
+            cout << "Posee una raiz." << endl << endl;
+        else
+            cout << "Posee " << Roots_ri.size() + Roots_pi.size() + Roots.size() << " raices." << endl << endl;
+
     if (Roots_ri.size() && Roots_pi.size()) {
         for (int i = 0; i < Roots_ri.size(); i++) {
-            cout << endl << "Posee  raices  complejas." << endl << endl;
+            cout << endl << "Posee 2 raices complejas." << endl << endl;
             cout << "raiz: " << Roots_ri[i] << " + " << Roots_pi[i] << " i " << endl << endl;
             cout << "raiz: " << Roots_ri[i] << " - " << Roots_pi[i] << " i " << endl << endl;
         }
     }
-    if (Roots.size()){
-        cout << endl << "Posee  raices  Reales." << endl << endl;
-        for (int i = 0; i < Roots.size(); i++)
-            cout << "raiz: " << Roots[i] << endl << endl;
+    if (Roots.size()) {
+        if (Roots.size() == 1){
+            cout << endl << "Posee una raiz Reales." << endl << endl;
+        cout << "raiz: " << Roots[0] << endl << endl;
+        }
+        else {
+            cout << endl << "Posee raices Reales." << endl << endl;
+            for (int i = 0; i < Roots.size(); i++)
+                cout << "raiz: " << Roots[i] << endl << endl;
+        }
     }
     if (!Roots_ri.size() && !Roots_pi.size() && !Roots.size())
-        cout << "No tiene soluciones o raices." << endl << endl;
+        cout << "No tiene soluciones 0 raices." << endl << endl;
 
 }
 

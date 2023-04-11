@@ -15,8 +15,6 @@ using namespace std;
 //main.exe "-6x**5 + 4x**3 + 2x**1 + 7"
 //main.exe "-9x**9 + 8x**8 - 7x**7 + 6x**6 + 5x**5 + 4x**4 + 3x**3 + 2x**2 + x**1 - 2"
 //main.exe "x**3 - x**2 - 4x**1 + 4"-> x=-1,x=2,x=-2
-//main.exe "2x**3 - 3x**2 - 11x**1 + 6" -> x=-2,x=1/2,x=3
-//main.exe "-2x**4 + 10x**2 - 9"
 //main.exe "2x**5 + x**4 - 8x**3 - x**2 + 6x"
 // todo[n][0] -> coeficiente
 // todo[n][1] -> grado
