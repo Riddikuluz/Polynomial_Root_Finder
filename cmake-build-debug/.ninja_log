@@ -1,0 +1,5 @@
+# ninja log v5
+3	610	7035634547938779	CMakeFiles/Polynomial_Root_Finder.dir/main.cpp.obj	e718c8b6504a471d
+8	537	7035634443788347	CMakeFiles/Polynomial_Root_Finder.dir/FUN.cpp.obj	a83b1fb8e59fae0
+310	396	7025495234958607	Polynomial_Root_Finder.exe	64d4f802d857e2a5
+1	96	7035640536674463	build.ninja	494d0e0b4750ab96
